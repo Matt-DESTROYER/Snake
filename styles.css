@@ -1,0 +1,23 @@
+* {
+	text-align: center;
+	margin: 0px;
+	overflow: hidden;
+}
+
+h1 {
+	background-color: lightgreen;
+	color: green;
+	padding: 10px;
+}
+
+button {
+	background-color: gold;
+	color: black;
+	border-color: black;
+	border-radius: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	padding-left: 10px;
+	cursor: pointer;
+}
