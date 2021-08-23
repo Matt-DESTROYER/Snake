@@ -3,4 +3,4 @@ Two simple recreations of the classic Snake game. A desktop (Windows) version ma
 
 Download desktop version from releases. (https://github.com/Matt-DESTROYER/Snake/releases/tag/v1.0)
 
-Play browser version (versions are not entirely the same) here: https://matt-destroyer.github.io/Snake/
+Play browser version (versions are not the same) here: https://matt-destroyer.github.io/Snake/
