@@ -1,5 +1,8 @@
-document.getElementById("menu").hidden = false;
-document.getElementById("game-screen").hidden = true;
+const menu = document.getElementById("menu");
+const game_screen = document.getElementById("game-screen");
+
+menu.hidden = false;
+game_screen.hidden = true;
 
 function sliderChange() {
 	document.getElementById("slider-value").textContent = document.getElementById("snakeSize").value;
@@ -7,38 +10,22 @@ function sliderChange() {
 
 class Point {
 	constructor(x, y) {
-		this._x = x;
-		this._y = y;
-	}
-	get x() {
-		return this._x;
-	}
-	get y() {
-		return this._y;
-	}
-	set x(value) {
-		this._x = value;
-	}
-	set y(value) {
-		this._y = value;
+		this.x = x;
+		this.y = y;
 	}
 }
 
 function Snake() {
-	document.getElementById("menu").hidden = true;
-	document.getElementById("game-screen").hidden = false;
-
-	let canvas = document.getElementById("game-screen");
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	let ctx = canvas.getContext("2d");
-
+	menu.hidden = true;
+	game_screen.hidden = false;
+	game_screen.width = window.innerWidth;
+	game_screen.height = window.innerHeight;
+	let ctx = game_screen.getContext("2d");
 	ctx.font = "20px Arial";
-
 	let loop,
-		blockSize = parseInt(document.getElementById("snakeSize").value),
-		w = Math.floor(canvas.width / blockSize),
-		h = Math.floor(canvas.height / blockSize),
+	    blockSize = parseInt(document.getElementById("snakeSize").value),
+		w = Math.floor(game_screen.width / blockSize),
+		h = Math.floor(game_screen.height / blockSize),
 		snake = [new Point(Math.floor(w / 3) * blockSize, Math.floor(h / 2) * blockSize)],
 		canMove = true,
 		gameOver = false,
@@ -51,7 +38,7 @@ function Snake() {
 	}
 
 	function randomApplePos() {
-		apple = new Point(random(0, Math.floor(canvas.width / blockSize)) * blockSize, random(0, Math.floor(canvas.height / blockSize)) * blockSize);
+		apple = new Point(random(0, Math.floor(game_screen.width / blockSize)) * blockSize, random(0, Math.floor(game_screen.height / blockSize)) * blockSize);
 		for (let i = 0; i < snake.length; i++) {
 			if (apple.x === snake[i].x && apple.y === snake[i].y) {
 				return randomApplePos();
@@ -66,8 +53,7 @@ function Snake() {
 		ctx.fill();
 		ctx.closePath();
 	}
-
-	document.addEventListener("keydown", function (e) {
+	document.addEventListener("keydown", function(e) {
 		e = e || window.event;
 		if (!gameOver) {
 			if (canMove) {
@@ -80,7 +66,7 @@ function Snake() {
 						}
 						canMove = false;
 						break;
-					// down
+						// down
 					case 83:
 					case 40:
 						if (dir !== 1) {
@@ -88,7 +74,7 @@ function Snake() {
 						}
 						canMove = false;
 						break;
-					// left
+						// left
 					case 65:
 					case 37:
 						if (dir !== 4) {
@@ -96,7 +82,7 @@ function Snake() {
 						}
 						canMove = false;
 						break;
-					// right
+						// right
 					case 68:
 					case 39:
 						if (dir !== 3) {
@@ -111,8 +97,8 @@ function Snake() {
 		}
 		switch (e.keyCode) {
 			case 82:
-				w = Math.floor(canvas.width / blockSize);
-				h = Math.floor(canvas.height / blockSize);
+				w = Math.floor(game_screen.width / blockSize);
+				h = Math.floor(game_screen.height / blockSize);
 				snake = [new Point(Math.floor(w / 3) * blockSize, Math.floor(h / 2) * blockSize)];
 				canMove = true;
 				gameOver = false;
@@ -122,17 +108,18 @@ function Snake() {
 				break;
 			case 77:
 				clearInterval(loop);
-				document.getElementById("menu").hidden = false;
-				document.getElementById("game-screen").hidden = true;
+				document.getElementById("menu")
+					.hidden = false;
+				document.getElementById("game-screen")
+					.hidden = true;
 				break;
 			default:
 				break;
 		}
 	});
-
-	loop = setInterval(function () {
+	loop = setInterval(function() {
 		// clear canvas
-		rect(0, 0, canvas.width, canvas.height, "black");
+		rect(0, 0, game_screen.width, game_screen.height, "black");
 		if (!gameOver) {
 			// snake body
 			for (let i = snake.length - 1; i > 0; i--) {
@@ -160,7 +147,7 @@ function Snake() {
 					break;
 			}
 			canMove = true;
-			if (snake[0].x < 0 || snake[0].x + blockSize > canvas.width || snake[0].y < 0 || snake[0].y + blockSize > canvas.height) {
+			if (snake[0].x < 0 || snake[0].x + blockSize > game_screen.width || snake[0].y < 0 || snake[0].y + blockSize > game_screen.height) {
 				gameOver = true;
 			}
 			if (snake[0].x === apple.x && snake[0].y === apple.y) {
@@ -174,14 +161,16 @@ function Snake() {
 				}
 			}
 			rect(snake[0].x, snake[0].y, blockSize, blockSize, "green");
+			ctx.textAlign = "right";
 			ctx.fillStyle = "white";
 			ctx.fillText("Score: " + score, 10, 25);
 		} else {
+			ctx.textAlign = "center";
 			ctx.fillStyle = "white";
-			ctx.fillText("Game Over!", canvas.width / 2 - 50, canvas.height / 6 * 2);
-			ctx.fillText("Final score: " + score, canvas.width / 2 - 60, canvas.height / 6 * 3);
-			ctx.fillText("Press 'r' to restart", canvas.width / 2 - 75, canvas.height / 6 * 4);
-			ctx.fillText("Press 'm' to return to the menu", canvas.width / 2 - 125, canvas.height / 6 * 5);
+			ctx.fillText("Game Over!", game_screen.width / 2, game_screen.height / 6 * 2);
+			ctx.fillText("Final score: " + score, game_screen.width / 2, game_screen.height / 6 * 3);
+			ctx.fillText("Press 'r' to restart", game_screen.width / 2, game_screen.height / 6 * 4);
+			ctx.fillText("Press 'm' to return to the menu", game_screen.width / 2, game_screen.height / 6 * 5);
 		}
 	}, 100);
 }
